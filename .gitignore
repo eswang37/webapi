@@ -214,6 +214,7 @@ UpgradeLog*.htm
 *.mdf
 *.ldf
 
+
 # Business Intelligence projects
 *.rdl.data
 *.bim.layout
@@ -261,4 +262,4 @@ __pycache__/
 *.pyc
 
 #app setting
-*.appsettings.json
+webapi/appsettings.json
