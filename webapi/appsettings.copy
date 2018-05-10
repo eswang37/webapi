@@ -1,0 +1,6 @@
+{
+  "ConnectionStrings": {
+    "ContactContext": "Server=andmap.co;Database=andmapdb;UID=admin;pwd=password;MultipleActiveResultSets=true"
+  }
+  
+}
