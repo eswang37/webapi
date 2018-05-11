@@ -1,6 +1,12 @@
 {
   "ConnectionStrings": {
     "ContactContext": "Server=andmap.co;Database=andmapdb;UID=admin;pwd=password;MultipleActiveResultSets=true"
+  },
+  "EmailSettings": {
+    "EmailServer": "mail.andmap.co",
+    "UserName": "userName",
+    "Passwrod": "password",
+    "EmailTo": "info@andmap.co",
+    "EmailBCC": "contact@andmap.co"
   }
-  
 }

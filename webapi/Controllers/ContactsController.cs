@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using webapi.Models;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace webapi.Controllers
 {
@@ -14,12 +16,11 @@ namespace webapi.Controllers
     public class ContactsController : Controller
     {
         private readonly ContactContext _context;
-
-       
-       
-        public ContactsController(ContactContext context)
+        private readonly IOptions<EmailSettings> _emailSettings;
+        public ContactsController(ContactContext context, IOptions<EmailSettings> emailSettings)
         {
             _context = context;
+            _emailSettings = emailSettings;
             if (_context.Contacts.Count() == 0)
             {
                 _context.Contacts.Add(new Contact { FirstName = "Jun", LastName = "Wang", Email = "demo@andmap.co", Message = "this is testing" });
@@ -103,6 +104,22 @@ namespace webapi.Controllers
             _context.Contacts.Add(contact);
             await _context.SaveChangesAsync();
 
+            Helper.MailService mailService = new Helper.MailService(_emailSettings);
+            /*
+            var jsonResult = Json(contact);
+            string jsonString = JsonConvert.SerializeObject(jsonResult.Value);
+            */
+            string jsonString = "Email: " +  contact.Email +"\n";
+            if (!string.IsNullOrEmpty(contact.FirstName))
+                jsonString += "First Name: " + contact.FirstName + "\n";
+
+            if (!string.IsNullOrEmpty(contact.LastName))
+                jsonString += "Last Name: " + contact.LastName + "\n";
+
+            if (!string.IsNullOrEmpty(contact.Message))
+                jsonString += "Message: " + contact.Message + "\n";
+
+            mailService.SendEmail("Contact US", jsonString);
             return CreatedAtAction("GetContact", new { id = contact.ContactId }, contact);
         }
 
