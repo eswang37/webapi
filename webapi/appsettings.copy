@@ -1,6 +1,6 @@
 {
   "ConnectionStrings": {
-    "ContactContext": "Server=andmap.co;Database=andmapdb;UID=admin;pwd=password;MultipleActiveResultSets=true"
+    "SQLSERVERDB": "Server=andmap.co;Database=andmapdb;UID=admin;pwd=password;MultipleActiveResultSets=true"
   },
   "EmailSettings": {
     "EmailServer": "mail.andmap.co",
@@ -8,5 +8,9 @@
     "Passwrod": "password",
     "EmailTo": "info@andmap.co",
     "EmailBCC": "contact@andmap.co"
+  },
+  "Keys": {
+    "UserAuthSecretKey": "abc123!321cba",
+    "APIURL": "http://localhost:50075/api/"
   }
 }
