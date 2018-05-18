@@ -56,7 +56,7 @@ namespace webapi.Controllers
 
         //[Route("active/{userId}/{token}")]
         [Route("active")]
-        [HttpPut]
+        [HttpGet]
         //public dynamic ActiveUser(int userId, string token)
         public dynamic ActiveUser()
         {
