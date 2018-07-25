@@ -12,6 +12,7 @@ namespace webapi.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Message { get; set; }
+        public string Ip { get; set; }
         public DateTime? Created { get; set; }
     }
 }

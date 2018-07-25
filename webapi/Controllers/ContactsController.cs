@@ -91,6 +91,49 @@ namespace webapi.Controllers
             return NoContent();
         }
 
+        [Route("PDFOCRLogin")]
+        [HttpPost]
+        public async Task<IActionResult> PostPDFOCRContact([FromBody] Contact contact)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (contact.Created == null)
+                contact.Created = DateTime.Now;
+            int result = 0;
+            try
+            {
+                _context.Database.ExecuteSqlCommand("exec PDFOCR_IUD {0}, {1}, {2}, {3}, {4}, {5}",
+                    1, contact.Email, contact.FirstName,
+                    contact.LastName, contact.Ip,
+                    result);
+            }
+            catch (Exception ee)
+            {
+            }
+            /*
+             * _context.Contacts.Add(contact);
+            await _context.SaveChangesAsync();
+            */
+            Helper.MailService mailService = new Helper.MailService(_emailSettings);
+           
+            string jsonString = "Email: " + contact.Email + "\n";
+            if (!string.IsNullOrEmpty(contact.FirstName))
+                jsonString += "First Name: " + contact.FirstName + "\n";
+
+            if (!string.IsNullOrEmpty(contact.LastName))
+                jsonString += "Last Name: " + contact.LastName + "\n";
+
+            if (!string.IsNullOrEmpty(contact.Message))
+                jsonString += "Message: " + contact.Message + "\n";
+            if (!string.IsNullOrEmpty(contact.Ip))
+                jsonString += "Ip: " + contact.Ip + "\n";
+
+            mailService.SendEmail("Contact US", jsonString);
+            return CreatedAtAction("GetContact", new { id = contact.ContactId }, contact);
+        }
+
         // POST: api/Contacts
         [HttpPost]
         public async Task<IActionResult> PostContact([FromBody] Contact contact)
