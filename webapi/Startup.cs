@@ -49,6 +49,8 @@ namespace webapi
 
             services.AddDbContext<ContactContext>(options =>
                     options.UseSqlServer(connString));
+            services.AddDbContext<PostContext>(options =>
+                    options.UseSqlServer(connString));
 
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             services.AddMvc();
